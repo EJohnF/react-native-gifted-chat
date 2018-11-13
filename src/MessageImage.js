@@ -33,9 +33,9 @@ export default function MessageImage({
 const styles = StyleSheet.create({
   container: {},
   image: {
-    width: 150,
-    height: 100,
-    borderRadius: 13,
+    width: 200,
+    height: 150,
+    borderRadius: 20,
     margin: 3,
     resizeMode: 'cover',
   },

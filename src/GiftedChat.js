@@ -236,7 +236,7 @@ class GiftedChat extends React.Component {
    * Returns the height, based on current window size, taking the keyboard into account.
    */
   getMessagesContainerHeightWithKeyboard(composerHeight = this.state.composerHeight) {
-    return this.getBasicMessagesContainerHeight(composerHeight) - this.getKeyboardHeight() + this.getBottomOffset();
+    return this.getBasicMessagesContainerHeight(composerHeight) - this.getKeyboardHeight() + this.getBottomOffset() + this.props.additionalBottomSize;
   }
 
   prepareMessagesContainerHeight(value) {
@@ -247,6 +247,7 @@ class GiftedChat extends React.Component {
   }
 
   onKeyboardWillShow(e) {
+    console.log('will show inner ', this.props.bottomOffset)
     this.setIsTypingDisabled(true);
     this.setKeyboardHeight(e.endCoordinates ? e.endCoordinates.height : e.end.height);
     this.setBottomOffset(this.props.bottomOffset);
@@ -357,8 +358,9 @@ class GiftedChat extends React.Component {
       this.textInput.clear();
     }
     this.notifyInputTextReset();
-    const newComposerHeight = MIN_COMPOSER_HEIGHT;
+    const newComposerHeight = this.state.composerHeight;
     const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(newComposerHeight);
+    console.log('reset input', newMessagesContainerHeight)
     this.setState({
       text: this.getTextFromProp(''),
       composerHeight: newComposerHeight,
@@ -375,6 +377,7 @@ class GiftedChat extends React.Component {
   onInputSizeChanged(size) {
     const newComposerHeight = Math.max(MIN_COMPOSER_HEIGHT, Math.min(MAX_COMPOSER_HEIGHT, size.height));
     const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(newComposerHeight);
+    console.log('input size change', newMessagesContainerHeight)
     this.setState({
       composerHeight: newComposerHeight,
       messagesContainerHeight: this.prepareMessagesContainerHeight(newMessagesContainerHeight),
@@ -409,6 +412,7 @@ class GiftedChat extends React.Component {
     this.setMaxHeight(layout.height);
     const newComposerHeight = MIN_COMPOSER_HEIGHT;
     const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(newComposerHeight);
+    console.log('on initial', newMessagesContainerHeight)
     this.setState({
       isInitialized: true,
       text: this.getTextFromProp(''),
@@ -419,16 +423,16 @@ class GiftedChat extends React.Component {
 
   onMainViewLayout(e) {
     // fix an issue when keyboard is dismissing during the initialization
-    const { layout } = e.nativeEvent;
-    if (this.getMaxHeight() !== layout.height || this.getIsFirstLayout() === true) {
-      this.setMaxHeight(layout.height);
-      this.setState({
-        messagesContainerHeight: this.prepareMessagesContainerHeight(this.getBasicMessagesContainerHeight()),
-      });
-    }
-    if (this.getIsFirstLayout() === true) {
-      this.setIsFirstLayout(false);
-    }
+    // const { layout } = e.nativeEvent;
+    // if (this.getMaxHeight() !== layout.height || this.getIsFirstLayout() === true) {
+    //   this.setMaxHeight(layout.height);
+    //   this.setState({
+    //     messagesContainerHeight: this.prepareMessagesContainerHeight(this.getBasicMessagesContainerHeight()),
+    //   });
+    // }
+    // if (this.getIsFirstLayout() === true) {
+    //   this.setIsFirstLayout(false);
+    // }
   }
 
   renderInputToolbar() {
@@ -551,7 +555,7 @@ GiftedChat.defaultProps = {
   minInputToolbarHeight: 44,
   keyboardShouldPersistTaps: Platform.select({
     ios: 'never',
-    android: 'always',
+    android: 'never',
   }),
   onInputTextChanged: null,
   maxInputLength: null,
