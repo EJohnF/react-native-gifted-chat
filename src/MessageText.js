@@ -83,7 +83,7 @@ export default class MessageText extends React.Component {
           ]}
           childrenProps={{ ...this.props.textProps }}
         >
-          {this.props.currentMessage.text}
+          {this.props.currentMessage.message}
         </ParsedText>
       </View>
     );

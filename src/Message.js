@@ -71,12 +71,12 @@ export default class Message extends React.PureComponent {
   }
 
   renderAvatar() {
-    if (this.props.user._id === this.props.currentMessage.user._id && !this.props.showUserAvatar) {
+    if (this.props._sender.userId === this.props.currentMessage._sender.userId && !this.props.showUserAvatar) {
       return null;
     }
     const avatarProps = this.getInnerComponentProps();
     const { currentMessage } = avatarProps;
-    if (currentMessage.user.avatar === null) {
+    if (currentMessage._sender.profileUrl === null) {
       return null;
     }
     return <Avatar {...avatarProps} />;
@@ -118,7 +118,7 @@ Message.defaultProps = {
   currentMessage: {},
   nextMessage: {},
   previousMessage: {},
-  user: {},
+  _sender: {},
   containerStyle: {},
   showUserAvatar: true,
   inverted: true,
@@ -134,7 +134,7 @@ Message.propTypes = {
   currentMessage: PropTypes.object,
   nextMessage: PropTypes.object,
   previousMessage: PropTypes.object,
-  user: PropTypes.object,
+  _sender: PropTypes.object,
   inverted: PropTypes.bool,
   containerStyle: PropTypes.shape({
     left: ViewPropTypes.style,

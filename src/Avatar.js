@@ -48,8 +48,8 @@ export default class Avatar extends React.PureComponent {
           styles[this.props.position].image,
           this.props.imageStyle[this.props.position],
         ])}
-        user={this.props.currentMessage.user}
-        onPress={() => this.props.onPressAvatar && this.props.onPressAvatar(this.props.currentMessage.user)}
+        _sender={this.props.currentMessage._sender}
+        onPress={() => this.props.onPressAvatar && this.props.onPressAvatar(this.props.currentMessage._sender)}
       />
     );
   }
@@ -100,7 +100,7 @@ Avatar.defaultProps = {
   showAvatarForEveryMessage: false,
   position: 'left',
   currentMessage: {
-    user: null,
+    _sender: null,
   },
   previousMessage: {},
   nextMessage: {},

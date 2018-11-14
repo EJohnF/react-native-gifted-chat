@@ -12,7 +12,7 @@ const { carrot, emerald, peterRiver, wisteria, alizarin, turquoise, midnightBlue
 
 export default class GiftedAvatar extends React.PureComponent {
   setAvatarColor() {
-    const userName = this.props.user.name || '';
+    const userName = this.props._sender.nickname || '';
     const name = userName.toUpperCase().split(' ');
     if (name.length === 1) {
       this.avatarName = `${name[0].charAt(0)}`;
@@ -35,19 +35,19 @@ export default class GiftedAvatar extends React.PureComponent {
   }
 
   renderAvatar() {
-    if (typeof this.props.user.avatar === 'function') {
-      return this.props.user.avatar();
-    } else if (typeof this.props.user.avatar === 'string') {
+    if (typeof this.props._sender.profileUrl === 'function') {
+      return this.props._sender.profileUrl();
+    } else if (typeof this.props._sender.profileUrl === 'string') {
       return (
         <Image
-          source={{ uri: this.props.user.avatar }}
+          source={{ uri: this.props._sender.profileUrl }}
           style={[styles.avatarStyle, this.props.avatarStyle]}
         />
       );
-    } else if (typeof this.props.user.avatar === 'number') {
+    } else if (typeof this.props._sender.profileUrl === 'number') {
       return (
         <Image
-          source={this.props.user.avatar}
+          source={this.props._sender.profileUrl}
           style={[styles.avatarStyle, this.props.avatarStyle]}
         />
       );
@@ -60,7 +60,7 @@ export default class GiftedAvatar extends React.PureComponent {
   }
 
   render() {
-    if (!this.props.user.name && !this.props.user.avatar) {
+    if (!this.props._sender.nickname && !this.props._sender.profileUrl) {
       // render placeholder
       return (
         <View
@@ -69,7 +69,7 @@ export default class GiftedAvatar extends React.PureComponent {
         />
       );
     }
-    if (this.props.user.avatar) {
+    if (this.props._sender.profileUrl) {
       return (
         <TouchableOpacity
           disabled={!this.props.onPress}
@@ -126,9 +126,9 @@ const styles = {
 };
 
 GiftedAvatar.defaultProps = {
-  user: {
-    name: null,
-    avatar: null,
+  _sender: {
+    nickname: null,
+    profileUrl: null,
   },
   onPress: null,
   avatarStyle: {},
@@ -136,7 +136,7 @@ GiftedAvatar.defaultProps = {
 };
 
 GiftedAvatar.propTypes = {
-  user: PropTypes.object,
+  _sender: PropTypes.object,
   onPress: PropTypes.func,
   avatarStyle: Image.propTypes.style,
   textStyle: Text.propTypes.style,

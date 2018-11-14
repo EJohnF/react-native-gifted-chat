@@ -69,7 +69,7 @@ export default class Bubble extends React.PureComponent {
   }
 
   renderMessageText() {
-    if (this.props.currentMessage.text) {
+    if (this.props.currentMessage.message) {
       const { containerStyle, wrapperStyle, ...messageTextProps } = this.props;
       if (this.props.renderMessageText) {
         return this.props.renderMessageText(messageTextProps);
@@ -80,7 +80,7 @@ export default class Bubble extends React.PureComponent {
   }
 
   renderMessageImage() {
-    if (this.props.currentMessage.image) {
+    if (this.props.currentMessage.url) {
       const { containerStyle, wrapperStyle, ...messageImageProps } = this.props;
       if (this.props.renderMessageImage) {
         return this.props.renderMessageImage(messageImageProps);
@@ -95,7 +95,7 @@ export default class Bubble extends React.PureComponent {
     if (this.props.renderTicks) {
       return this.props.renderTicks(currentMessage);
     }
-    if (currentMessage.user._id !== this.props.user._id) {
+    if (currentMessage._sender.userId !== this.props._sender.userId) {
       return null;
     }
     if (currentMessage.sent || currentMessage.received) {
@@ -243,7 +243,7 @@ Bubble.defaultProps = {
 };
 
 Bubble.propTypes = {
-  user: PropTypes.object.isRequired,
+  _sender: PropTypes.object.isRequired,
   touchableProps: PropTypes.object,
   onLongPress: PropTypes.func,
   renderMessageImage: PropTypes.func,

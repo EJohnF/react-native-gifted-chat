@@ -84,14 +84,14 @@ export default class MessageContainer extends React.PureComponent {
   }
 
   renderRow({ item, index }) {
-    if (!item._id && item._id !== 0) {
+    if (!item.messageId && item.messageId !== 0) {
       console.warn('GiftedChat: `_id` is missing for message', JSON.stringify(item));
     }
-    if (!item.user) {
+    if (!item._sender) {
       if (!item.system) {
         console.warn('GiftedChat: `user` is missing for message', JSON.stringify(item));
       }
-      item.user = {};
+      item._sender = {};
     }
     const { messages, ...restProps } = this.props;
     const previousMessage = messages[index + 1] || {};
@@ -99,11 +99,11 @@ export default class MessageContainer extends React.PureComponent {
 
     const messageProps = {
       ...restProps,
-      key: item._id,
+      key: item.messageId,
       currentMessage: item,
       previousMessage,
       nextMessage,
-      position: item.user._id === this.props.user._id ? 'right' : 'left',
+      position: item._sender.userId === this.props._sender.userId ? 'right' : 'left',
     };
 
     if (this.props.renderMessage) {
@@ -124,7 +124,7 @@ export default class MessageContainer extends React.PureComponent {
       <View style={styles.container}>
         <FlatList
           ref={(ref) => (this.flatListRef = ref)}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.messageId.toString()}
           enableEmptySections
           automaticallyAdjustContentInsets={false}
           inverted={this.props.inverted}
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
 
 MessageContainer.defaultProps = {
   messages: [],
-  user: {},
+  _sender: {},
   renderFooter: null,
   renderMessage: null,
   onLoadEarlier: () => {},
@@ -173,7 +173,7 @@ MessageContainer.defaultProps = {
 
 MessageContainer.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
-  user: PropTypes.object,
+  _sender: PropTypes.object,
   renderFooter: PropTypes.func,
   renderMessage: PropTypes.func,
   renderLoadEarlier: PropTypes.func,

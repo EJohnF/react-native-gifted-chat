@@ -23,7 +23,7 @@ export default function MessageImage({
         <Image
           {...imageProps}
           style={[styles.image, imageStyle]}
-          source={{ uri: currentMessage.image }}
+          source={{ uri: currentMessage.url }}
         />
       </Lightbox>
     </View>
