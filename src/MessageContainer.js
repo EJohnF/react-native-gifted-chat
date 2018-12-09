@@ -135,6 +135,7 @@ export default class MessageContainer extends React.PureComponent {
           {...this.props.invertibleScrollViewProps}
           ListFooterComponent={this.renderHeaderWrapper}
           ListHeaderComponent={this.renderFooter}
+          extraData={this.props.typingText}
           {...this.props.listViewProps}
         />
       </View>
